@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../lib/mongoose.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -60,18 +60,15 @@ const userSchema = new mongoose.Schema(
 );
 
 /* hash password */
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 
 /* compare password */
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
-
-export default mongoose.model("User", userSchema);
 
 //access token
 userSchema.methods.getAccessToken = function () {
@@ -88,3 +85,5 @@ userSchema.methods.getRefreshToken = function () {
     expiresIn: process.env.JWT_REFRESH_EXPIRE,
   });
 };
+
+export default mongoose.model("User", userSchema);

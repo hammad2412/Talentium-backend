@@ -20,13 +20,13 @@ export const upsertCandidateProfile = asyncHandler(async (req, res) => {
 export const getMyProfile = asyncHandler(async (req, res) => {
   const profile = await CandidateProfile.findOne({
     userId: req.user._id,
-  });
+  }).populate("userId", "name email");
 
   if (!profile) {
     throw new ErrorResponse("Profile not found", 404);
   }
 
-  res.json({
+  res.status(200).json({
     success: true,
     profile,
   });

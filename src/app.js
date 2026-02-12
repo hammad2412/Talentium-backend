@@ -9,6 +9,7 @@ import companyRoutes from "./routes/company.routes.js";
 import jobRoutes from "./routes/job.routes.js";
 import applicationRoutes from "./routes/application.routes.js";
 import candidateProfileRoutes from "./routes/candidateProfile.routes.js";
+import userRoutes from "./routes/user.routes.js";
 //error handler
 import errorHandler from "./middlewares/error.middleware.js";
 //security
@@ -20,6 +21,11 @@ import hpp from "hpp";
 import cors from "cors";
 
 const app = express();
+
+app.use((req, res, next) => {
+  console.log("Incoming Request:", req.method, req.originalUrl);
+  next();
+});
 
 // ---------- GLOBAL MIDDLEWARES ----------
 
@@ -47,10 +53,10 @@ if (process.env.NODE_ENV === "development") {
 app.use(helmet());
 
 // Prevent NoSQL injection
-app.use(mongoSanitize());
+//app.use(mongoSanitize());
 
 // Prevent XSS attacks
-app.use(xss());
+//app.use(xss());
 
 // Prevent HTTP param pollution
 app.use(hpp());
@@ -65,11 +71,12 @@ const limiter = rateLimit({
 app.use("/api", limiter);
 
 // Mount Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/companies", companyRoutes);
-app.use("/api/jobs", jobRoutes);
-app.use("/api/applications", applicationRoutes);
-app.use("/api/candidate-profile", candidateProfileRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/companies", companyRoutes);
+app.use("/api/v1/jobs", jobRoutes);
+app.use("/api/v1/applications", applicationRoutes);
+app.use("/api/v1/candidate-profile", candidateProfileRoutes);
+app.use("/api/v1/users", userRoutes);
 
 //error handler
 app.use(errorHandler);

@@ -1,0 +1,12 @@
+[
+  { "name": "Ashe", "email": "ashe@gmail.com", "password": "123456" },
+  { "name": "Zaid", "email": "zaid@gmail.com", "password": "123456" },
+  { "name": "Omar", "email": "omar@gmail.com", "password": "123456" },
+  { "name": "Rafi", "email": "rafi@gmail.com", "password": "123456" },
+  { "name": "Iman", "email": "iman@gmail.com", "password": "123456" },
+  { "name": "Noor", "email": "noor@gmail.com", "password": "123456" },
+  { "name": "Yase", "email": "yase@gmail.com", "password": "123456" },
+  { "name": "Tari", "email": "tari@gmail.com", "password": "123456" },
+  { "name": "Fais", "email": "fais@gmail.com", "password": "123456" },
+  { "name": "Hadi", "email": "hadi@gmail.com", "password": "123456" }
+]
