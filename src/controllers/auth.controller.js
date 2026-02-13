@@ -4,7 +4,9 @@ import crypto from "crypto";
 import ErrorResponse from "../utils/ErrorResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-//LOGIN
+// ============================
+// LOGIN
+// ============================
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -14,11 +16,11 @@ export const login = asyncHandler(async (req, res) => {
     throw new ErrorResponse("Invalid Credentials", 401);
   }
 
-  // generate tokens
+  // Generate tokens
   const accessToken = user.getAccessToken();
   const refreshToken = user.getRefreshToken();
 
-  // hash refresh token before saving
+  // Hash refresh token before saving in DB
   user.refreshToken = crypto
     .createHash("sha256")
     .update(refreshToken)
@@ -26,10 +28,17 @@ export const login = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
+  // 🔥🔥🔥 CHANGE 1: Set refresh token in httpOnly cookie
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: false, // set true in production (https)
+    sameSite: "lax",
+  });
+
+  // 🔥🔥🔥 CHANGE 2: REMOVE refreshToken from JSON response
   res.status(200).json({
     success: true,
     accessToken,
-    refreshToken,
     user: {
       id: user._id,
       name: user.name,
@@ -38,7 +47,9 @@ export const login = asyncHandler(async (req, res) => {
   });
 });
 
-//REGISTER CANDIDATE
+// ============================
+// REGISTER CANDIDATE
+// ============================
 export const registerCandidate = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -64,10 +75,17 @@ export const registerCandidate = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
+  // 🔥🔥🔥 CHANGE 3: Set cookie here too
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+
+  // 🔥🔥🔥 CHANGE 4: Remove refreshToken from JSON
   res.status(201).json({
     success: true,
     accessToken,
-    refreshToken,
     user: {
       id: user._id,
       name: user.name,
@@ -76,7 +94,9 @@ export const registerCandidate = asyncHandler(async (req, res) => {
   });
 });
 
-//REGISTER RECRUITER
+// ============================
+// REGISTER RECRUITER
+// ============================
 export const registerRecruiter = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -102,10 +122,17 @@ export const registerRecruiter = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
+  // 🔥🔥🔥 CHANGE 5: Set cookie
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+
+  // 🔥🔥🔥 CHANGE 6: Remove refreshToken from JSON
   res.status(201).json({
     success: true,
     accessToken,
-    refreshToken,
     user: {
       id: user._id,
       name: user.name,
@@ -114,10 +141,11 @@ export const registerRecruiter = asyncHandler(async (req, res) => {
   });
 });
 
-//REFRESH ACCESS TOKEN
-
+// ============================
+// REFRESH ACCESS TOKEN
+// ============================
 export const refreshAccessToken = asyncHandler(async (req, res) => {
-  const { refreshToken } = req.body;
+  const refreshToken = req.cookies.refreshToken;
 
   if (!refreshToken) {
     throw new ErrorResponse("Refresh token required", 401);
@@ -154,19 +182,45 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
+  // 🔥🔥🔥 CHANGE 7: Rotate cookie with new refresh token
+  res.cookie("refreshToken", newRefreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  });
+
+  // 🔥🔥🔥 CHANGE 8: Do NOT return refreshToken in JSON
   res.status(200).json({
     success: true,
     accessToken: newAccessToken,
-    refreshToken: newRefreshToken,
+    user: {
+      id: user._id,
+      name: user.name,
+      role: user.role,
+    },
   });
 });
 
-//LOGOUT
+// ============================
+// LOGOUT
+// ============================
 export const logout = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user.id);
+  const refreshToken = req.cookies.refreshToken;
 
-  user.refreshToken = undefined;
-  await user.save({ validateBeforeSave: false });
+  if (refreshToken) {
+    const hashedRefreshToken = crypto
+      .createHash("sha256")
+      .update(refreshToken)
+      .digest("hex");
+
+    await User.findOneAndUpdate(
+      { refreshToken: hashedRefreshToken },
+      { refreshToken: undefined },
+    );
+  }
+
+  // 🔥🔥🔥 CHANGE 9: Clear cookie
+  res.clearCookie("refreshToken");
 
   res.status(200).json({
     success: true,
