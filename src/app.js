@@ -72,7 +72,7 @@ app.use("/api", limiter);
 
 // Mount Routes
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/companies", companyRoutes);
+app.use("/api/v1/company", companyRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/applications", applicationRoutes);
 app.use("/api/v1/candidate-profile", candidateProfileRoutes);

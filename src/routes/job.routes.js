@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createJob,
+  getAllJobs,
   getMyJobs,
   updateJob,
   updateJobStatus,
@@ -16,6 +17,11 @@ import {
 } from "../validations/job.validation.js";
 
 const router = express.Router();
+
+/* ================================
+   GET ALL JOBS (Candidate)
+================================ */
+router.get("/", getAllJobs);
 
 /* ================================
    CREATE JOB

@@ -83,3 +83,18 @@ export const updateJobStatus = asyncHandler(async (req, res) => {
     data: job,
   });
 });
+
+/* ================================
+   GET ALL OPEN JOBS (Candidate)
+================================ */
+export const getAllJobs = asyncHandler(async (req, res) => {
+  const jobs = await Job.find({ status: "open" })
+    .populate("companyId", "name")
+    .sort({ createdAt: -1 });
+
+  res.status(200).json({
+    success: true,
+    count: jobs.length,
+    data: jobs,
+  });
+});
