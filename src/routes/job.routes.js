@@ -1,8 +1,10 @@
 import express from "express";
 import {
   createJob,
+  deleteJob,
   getAllJobs,
   getMyJobs,
+  getSingleJob,
   updateJob,
   updateJobStatus,
 } from "../controllers/job.controller.js";
@@ -21,7 +23,7 @@ const router = express.Router();
 /* ================================
    GET ALL JOBS (Candidate)
 ================================ */
-router.get("/", getAllJobs);
+router.get("/", authorize("candidate"), pagination(Job), getAllJobs);
 
 /* ================================
    CREATE JOB
@@ -42,7 +44,7 @@ router.get(
   "/my-jobs",
   protect,
   authorize("recruiter"),
-  pagination(Job),
+  pagination(Job, [{ path: "companyId", select: "name" }]),
   getMyJobs,
 );
 
@@ -56,6 +58,12 @@ router.put(
   validate(updateJobSchema),
   updateJob,
 );
+
+//Get a job
+router.get("/:id", protect, authorize("recruiter"), getSingleJob);
+
+//Detele a job
+router.delete("/:id", protect, authorize("recruiter"), deleteJob);
 
 /* ================================
    UPDATE JOB STATUS

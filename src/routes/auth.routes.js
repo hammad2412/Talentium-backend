@@ -5,6 +5,7 @@ import {
   registerRecruiter,
   refreshAccessToken,
   logout,
+  getMe,
 } from "../controllers/auth.controller.js";
 import validate from "../middlewares/validate.middleware.js";
 import { registerSchema, loginSchema } from "../validations/auth.validation.js";
@@ -25,5 +26,7 @@ router.post("/register/recruiter", validate(registerSchema), registerRecruiter);
 
 /* logout */
 router.post("/logout", protect, logout);
+
+router.get("/me", protect, getMe);
 
 export default router;

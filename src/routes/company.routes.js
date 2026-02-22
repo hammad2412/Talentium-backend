@@ -1,5 +1,9 @@
 import express from "express";
-import { createCompany } from "../controllers/company.controller.js";
+import {
+  createCompany,
+  getMyCompany,
+  updateCompany,
+} from "../controllers/company.controller.js";
 import protect from "../middlewares/auth.middleware.js";
 import { authorize } from "../middlewares/authorize.middleware.js";
 import validate from "../middlewares/validate.middleware.js";
@@ -15,5 +19,11 @@ router.post(
   validate(createCompanySchema),
   createCompany,
 );
+
+/* GET MY COMPANY */
+router.get("/me", protect, authorize("recruiter"), getMyCompany);
+
+/* UPDATE COMPANY */
+router.put("/", protect, authorize("recruiter"), updateCompany);
 
 export default router;
