@@ -1,7 +1,7 @@
 {
-  "name": "job-portal",
+  "name": "Talentium-backend",
   "version": "1.0.0",
-  "description": "Job Portal Backend API",
+  "description": "Talentium a job portal Backend API",
   "type": "module",
   "scripts": {
     "start": "node src/server.js",

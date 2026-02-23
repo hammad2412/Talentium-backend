@@ -31,8 +31,8 @@ export const login = asyncHandler(async (req, res) => {
   // 🔥🔥🔥 CHANGE 1: Set refresh token in httpOnly cookie
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false, // set true in production (https)
-    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   // 🔥🔥🔥 CHANGE 2: REMOVE refreshToken from JSON response
@@ -78,8 +78,8 @@ export const registerCandidate = asyncHandler(async (req, res) => {
   // 🔥🔥🔥 CHANGE 3: Set cookie here too
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   // 🔥🔥🔥 CHANGE 4: Remove refreshToken from JSON
@@ -125,8 +125,8 @@ export const registerRecruiter = asyncHandler(async (req, res) => {
   // 🔥🔥🔥 CHANGE 5: Set cookie
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   // 🔥🔥🔥 CHANGE 6: Remove refreshToken from JSON
@@ -185,8 +185,8 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   // 🔥🔥🔥 CHANGE 7: Rotate cookie with new refresh token
   res.cookie("refreshToken", newRefreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   // 🔥🔥🔥 CHANGE 8: Do NOT return refreshToken in JSON
@@ -220,7 +220,11 @@ export const logout = asyncHandler(async (req, res) => {
   }
 
   // 🔥🔥🔥 CHANGE 9: Clear cookie
-  res.clearCookie("refreshToken");
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  });
 
   res.status(200).json({
     success: true,

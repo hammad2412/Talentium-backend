@@ -1,6 +1,8 @@
 //Load env vars
 import dotenv from "dotenv";
-dotenv.config({ path: "./config/config.env" });
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "./config/config.env" });
+}
 
 import app from "./app.js";
 import connectDB from "../config/db.js";

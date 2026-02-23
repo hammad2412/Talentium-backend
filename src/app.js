@@ -22,10 +22,12 @@ import cors from "cors";
 
 const app = express();
 
-app.use((req, res, next) => {
-  console.log("Incoming Request:", req.method, req.originalUrl);
-  next();
-});
+if (process.env.NODE_ENV === "development") {
+  app.use((req, res, next) => {
+    console.log("Incoming Request:", req.method, req.originalUrl);
+    next();
+  });
+}
 
 // ---------- GLOBAL MIDDLEWARES ----------
 
@@ -37,9 +39,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // CORS
+const allowedOrigin =
+  process.env.NODE_ENV === "production"
+    ? process.env.CLIENT_URL
+    : "http://localhost:5173";
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: allowedOrigin,
     credentials: true,
   }),
 );
@@ -78,9 +84,6 @@ app.use("/api/v1/applications", applicationRoutes);
 app.use("/api/v1/candidate-profile", candidateProfileRoutes);
 app.use("/api/v1/users", userRoutes);
 
-//error handler
-app.use(errorHandler);
-
 // ---------- HEALTH CHECK ----------
 app.get("/health", (req, res) => {
   res.status(200).json({
@@ -99,17 +102,7 @@ app.use((req, res) => {
   });
 });
 
-// ---------- GLOBAL ERROR HANDLER ----------
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-
-  const statusCode = err.statusCode || 500;
-
-  res.status(statusCode).json({
-    success: false,
-    message: err.message || "Internal Server Error",
-    errors: err.errors || null,
-  });
-});
+//error handler
+app.use(errorHandler);
 
 export default app;
