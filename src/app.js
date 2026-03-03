@@ -91,6 +91,7 @@ app.get("/health", (req, res) => {
     status: "OK",
     environment: process.env.NODE_ENV,
     timestamp: new Date().toISOString(),
+    owner: "HammadKhan",
   });
 });
 

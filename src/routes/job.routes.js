@@ -23,7 +23,13 @@ const router = express.Router();
 /* ================================
    GET ALL JOBS (Candidate)
 ================================ */
-router.get("/", authorize("candidate"), pagination(Job), getAllJobs);
+router.get(
+  "/",
+  protect,
+  authorize("candidate"),
+  pagination(Job, [{ path: "companyId", select: "name" }]),
+  getAllJobs,
+);
 
 /* ================================
    CREATE JOB

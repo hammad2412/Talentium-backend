@@ -7,16 +7,7 @@ import ErrorResponse from "../utils/ErrorResponse.js";
    GET ALL OPEN JOBS (Candidate)
 ================================ */
 export const getAllJobs = asyncHandler(async (req, res) => {
-  const jobs = await Job.find({ status: "open", ...req.query })
-    .populate("companyId", "name")
-    .sort({ createdAt: -1 });
-
-  res.status(200).json({
-    success: true,
-    pagination,
-    count: jobs.length,
-    data: jobs,
-  });
+  res.status(200).json(res.pagination);
 });
 
 /* ================================
