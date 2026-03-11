@@ -4,9 +4,6 @@ import crypto from "crypto";
 import ErrorResponse from "../utils/ErrorResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-// ============================
-// LOGIN
-// ============================
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -16,11 +13,11 @@ export const login = asyncHandler(async (req, res) => {
     throw new ErrorResponse("Invalid Credentials", 401);
   }
 
-  // Generate tokens
+  //Generate tokens
   const accessToken = user.getAccessToken();
   const refreshToken = user.getRefreshToken();
 
-  // Hash refresh token before saving in DB
+  //Hash refresh token before saving in DB
   user.refreshToken = crypto
     .createHash("sha256")
     .update(refreshToken)
@@ -28,14 +25,13 @@ export const login = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
-  // 🔥🔥🔥 CHANGE 1: Set refresh token in httpOnly cookie
+  //Set refresh token in httpOnly cookie
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
-  // 🔥🔥🔥 CHANGE 2: REMOVE refreshToken from JSON response
   res.status(200).json({
     success: true,
     accessToken,
@@ -47,9 +43,6 @@ export const login = asyncHandler(async (req, res) => {
   });
 });
 
-// ============================
-// REGISTER CANDIDATE
-// ============================
 export const registerCandidate = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -75,14 +68,13 @@ export const registerCandidate = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
-  // 🔥🔥🔥 CHANGE 3: Set cookie here too
+  //Set cookie
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
-  // 🔥🔥🔥 CHANGE 4: Remove refreshToken from JSON
   res.status(201).json({
     success: true,
     accessToken,
@@ -94,9 +86,6 @@ export const registerCandidate = asyncHandler(async (req, res) => {
   });
 });
 
-// ============================
-// REGISTER RECRUITER
-// ============================
 export const registerRecruiter = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -122,14 +111,13 @@ export const registerRecruiter = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
-  // 🔥🔥🔥 CHANGE 5: Set cookie
+  //Set cookie
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
-  // 🔥🔥🔥 CHANGE 6: Remove refreshToken from JSON
   res.status(201).json({
     success: true,
     accessToken,
@@ -141,9 +129,6 @@ export const registerRecruiter = asyncHandler(async (req, res) => {
   });
 });
 
-// ============================
-// REFRESH ACCESS TOKEN
-// ============================
 export const refreshAccessToken = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
@@ -182,14 +167,13 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 
   await user.save({ validateBeforeSave: false });
 
-  // 🔥🔥🔥 CHANGE 7: Rotate cookie with new refresh token
+  //Rotate cookie with new refresh token
   res.cookie("refreshToken", newRefreshToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
-  // 🔥🔥🔥 CHANGE 8: Do NOT return refreshToken in JSON
   res.status(200).json({
     success: true,
     accessToken: newAccessToken,
@@ -201,9 +185,6 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   });
 });
 
-// ============================
-// LOGOUT
-// ============================
 export const logout = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
 
@@ -219,7 +200,6 @@ export const logout = asyncHandler(async (req, res) => {
     );
   }
 
-  // 🔥🔥🔥 CHANGE 9: Clear cookie
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

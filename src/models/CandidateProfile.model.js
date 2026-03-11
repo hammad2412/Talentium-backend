@@ -12,49 +12,63 @@ const candidateProfileSchema = new mongoose.Schema(
     headline: {
       type: String,
       trim: true,
+      maxlength: 120,
     },
 
-    summary: {
+    about: {
       type: String,
+      maxlength: 1000,
     },
 
-    experienceYears: {
+    currentRole: {
+      type: String,
+      trim: true,
+    },
+
+    currentCompany: {
+      type: String,
+      trim: true,
+    },
+
+    currentLocation: {
+      type: String,
+      trim: true,
+    },
+
+    totalExperience: {
       type: Number,
       default: 0,
     },
 
-    skills: {
+    primarySkills: {
       type: [String],
       default: [],
     },
 
-    education: [
-      {
-        degree: String,
-        institution: String,
-        startYear: Number,
-        endYear: Number,
-      },
-    ],
+    profileCompletion: {
+      type: Number,
+      default: 10,
+      min: 0,
+      max: 100,
+    },
 
-    experience: [
-      {
-        company: String,
-        role: String,
-        startDate: Date,
-        endDate: Date,
-        description: String,
-      },
-    ],
+    openToWork: {
+      type: Boolean,
+      default: true,
+    },
 
-    projects: [
-      {
-        title: String,
-        description: String,
-        techStack: [String],
-        link: String,
-      },
-    ],
+    profileVisibility: {
+      type: String,
+      enum: ["public", "recruitersOnly", "private"],
+      default: "public",
+    },
+
+    profileSlug: {
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+    },
   },
   { timestamps: true },
 );

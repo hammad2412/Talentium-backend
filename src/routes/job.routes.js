@@ -20,9 +20,6 @@ import {
 
 const router = express.Router();
 
-/* ================================
-   GET ALL JOBS (Candidate)
-================================ */
 router.get(
   "/",
   protect,
@@ -31,9 +28,6 @@ router.get(
   getAllJobs,
 );
 
-/* ================================
-   CREATE JOB
-================================ */
 router.post(
   "/",
   protect,
@@ -41,22 +35,16 @@ router.post(
   validate(createJobSchema),
   createJob,
 );
-
-/* ================================
-   GET MY JOBS (Recruiter dashboard)
-   Supports pagination, sorting, filters
-================================ */
 router.get(
   "/my-jobs",
   protect,
   authorize("recruiter"),
-  pagination(Job, [{ path: "companyId", select: "name" }]),
+  pagination(Job, [{ path: "companyId", select: "name" }], (req) => ({
+    recruiterId: req.user._id,
+  })),
   getMyJobs,
 );
 
-/* ================================
-   UPDATE JOB
-================================ */
 router.put(
   "/:id",
   protect,
@@ -65,15 +53,10 @@ router.put(
   updateJob,
 );
 
-//Get a job
 router.get("/:id", protect, authorize("recruiter"), getSingleJob);
 
-//Detele a job
 router.delete("/:id", protect, authorize("recruiter"), deleteJob);
 
-/* ================================
-   UPDATE JOB STATUS
-================================ */
 router.patch("/:id/status", protect, authorize("recruiter"), updateJobStatus);
 
 export default router;

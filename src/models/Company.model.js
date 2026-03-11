@@ -21,7 +21,7 @@ const companySchema = new mongoose.Schema(
     },
 
     size: {
-      type: String, // "1-10", "11-50", "51-200", etc
+      type: String,
     },
 
     location: {

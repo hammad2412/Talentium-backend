@@ -3,20 +3,13 @@ import Job from "../models/Job.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ErrorResponse from "../utils/ErrorResponse.js";
 
-/* ================================
-   GET ALL OPEN JOBS (Candidate)
-================================ */
 export const getAllJobs = asyncHandler(async (req, res) => {
   res.status(200).json(res.pagination);
 });
 
-/* ================================
-   CREATE JOB (Recruiter only)
-================================ */
 export const createJob = asyncHandler(async (req, res) => {
   const recruiter = req.user;
 
-  // recruiter must have company
   if (!recruiter.companyId) {
     throw new ErrorResponse("Please create a company before posting jobs", 400);
   }
@@ -33,17 +26,10 @@ export const createJob = asyncHandler(async (req, res) => {
   });
 });
 
-/* ================================
-   GET MY JOBS (Recruiter dashboard)
-   Pagination handled by middleware
-================================ */
 export const getMyJobs = asyncHandler(async (req, res) => {
   res.status(200).json(res.pagination);
 });
 
-/* ================================
-   UPDATE JOB
-================================ */
 export const updateJob = asyncHandler(async (req, res) => {
   const job = await Job.findOne({
     _id: req.params.id,
@@ -63,9 +49,6 @@ export const updateJob = asyncHandler(async (req, res) => {
   });
 });
 
-/* ================================
-   UPDATE JOB STATUS
-================================ */
 export const updateJobStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
 
@@ -92,9 +75,6 @@ export const updateJobStatus = asyncHandler(async (req, res) => {
   });
 });
 
-/* ================================
-   GET SINGLE JOB (Recruiter)
-================================ */
 export const getSingleJob = asyncHandler(async (req, res) => {
   const job = await Job.findOne({
     _id: req.params.id,
@@ -111,9 +91,6 @@ export const getSingleJob = asyncHandler(async (req, res) => {
   });
 });
 
-/* ================================
-   DELETE JOB
-================================ */
 export const deleteJob = asyncHandler(async (req, res) => {
   const job = await Job.findOneAndDelete({
     _id: req.params.id,

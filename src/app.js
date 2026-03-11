@@ -9,6 +9,12 @@ import companyRoutes from "./routes/company.routes.js";
 import jobRoutes from "./routes/job.routes.js";
 import applicationRoutes from "./routes/application.routes.js";
 import candidateProfileRoutes from "./routes/candidateProfile.routes.js";
+import candidateExperienceRoutes from "./routes/candidateExperience.routes.js";
+import candidateEducationRoutes from "./routes/candidateEducation.routes.js";
+import candidateSkillRoutes from "./routes/candidateSkill.routes.js";
+import candidateProjectRoutes from "./routes/candidateProject.routes.js";
+import candidatePreferenceRoutes from "./routes/candidatePreference.routes.js";
+
 import userRoutes from "./routes/user.routes.js";
 //error handler
 import errorHandler from "./middlewares/error.middleware.js";
@@ -82,6 +88,11 @@ app.use("/api/v1/company", companyRoutes);
 app.use("/api/v1/jobs", jobRoutes);
 app.use("/api/v1/applications", applicationRoutes);
 app.use("/api/v1/candidate-profile", candidateProfileRoutes);
+app.use("/api/v1/candidate-experience", candidateExperienceRoutes);
+app.use("/api/v1/candidate-education", candidateEducationRoutes);
+app.use("/api/v1/candidate-skills", candidateSkillRoutes);
+app.use("/api/v1/candidate-project", candidateProjectRoutes);
+app.use("/api/v1/candidate-preference", candidatePreferenceRoutes);
 app.use("/api/v1/users", userRoutes);
 
 // ---------- HEALTH CHECK ----------

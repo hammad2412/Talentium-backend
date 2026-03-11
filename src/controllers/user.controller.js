@@ -3,7 +3,6 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ErrorResponse from "../utils/ErrorResponse.js";
 import CandidateProfile from "../models/CandidateProfile.model.js";
 
-// GET ALL USERS
 export const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find().select("-password -refreshToken");
 
@@ -14,8 +13,6 @@ export const getAllUsers = asyncHandler(async (req, res) => {
   });
 });
 
-// DELETE USER
-
 export const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
@@ -23,7 +20,6 @@ export const deleteUser = asyncHandler(async (req, res) => {
     throw new ErrorResponse("User not found", 404);
   }
 
-  // If candidate → delete profile
   if (user.role === "candidate") {
     await CandidateProfile.findOneAndDelete({ userId: user._id });
   }

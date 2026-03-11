@@ -4,9 +4,6 @@ import CandidateProfile from "../models/CandidateProfile.model.js";
 import ErrorResponse from "../utils/ErrorResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-/* ================================
-   CANDIDATE APPLIES TO JOB
-================================ */
 export const applyJob = asyncHandler(async (req, res) => {
   const job = await Job.findById(req.params.jobId);
 
@@ -40,17 +37,10 @@ export const applyJob = asyncHandler(async (req, res) => {
   });
 });
 
-/* ================================
-   RECRUITER VIEWS APPLICATIONS
-   Pagination handled by middleware
-================================ */
 export const getJobApplications = asyncHandler(async (req, res) => {
   res.status(200).json(res.pagination);
 });
 
-/* ================================
-   UPDATE APPLICATION STATUS
-================================ */
 export const updateApplicationStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
 

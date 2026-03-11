@@ -1,42 +1,27 @@
 import Joi from "joi";
 
 export const candidateProfileSchema = Joi.object({
-  headline: Joi.string().optional(),
-  summary: Joi.string().optional(),
-  experienceYears: Joi.number().min(0).optional(),
-  skills: Joi.array().items(Joi.string()).optional(),
+  name: Joi.string().max(80).optional(),
 
-  education: Joi.array()
-    .items(
-      Joi.object({
-        degree: Joi.string().required(),
-        institution: Joi.string().required(),
-        startYear: Joi.number().required(),
-        endYear: Joi.number().optional(),
-      }),
-    )
-    .optional(),
+  email: Joi.string().email().optional(),
 
-  experience: Joi.array()
-    .items(
-      Joi.object({
-        company: Joi.string().required(),
-        role: Joi.string().required(),
-        startDate: Joi.date().required(),
-        endDate: Joi.date().optional(),
-        description: Joi.string().optional(),
-      }),
-    )
-    .optional(),
+  headline: Joi.string().max(120).allow("").optional(),
 
-  projects: Joi.array()
-    .items(
-      Joi.object({
-        title: Joi.string().required(),
-        description: Joi.string().optional(),
-        techStack: Joi.array().items(Joi.string()).optional(),
-        link: Joi.string().uri().optional(),
-      }),
-    )
+  about: Joi.string().max(1000).allow("").optional(),
+
+  currentRole: Joi.string().allow("").optional(),
+
+  currentCompany: Joi.string().allow("").optional(),
+
+  currentLocation: Joi.string().allow("").optional(),
+
+  totalExperience: Joi.number().min(0).optional(),
+
+  primarySkills: Joi.array().items(Joi.string()).optional(),
+
+  openToWork: Joi.boolean().optional(),
+
+  profileVisibility: Joi.string()
+    .valid("public", "recruitersOnly", "private")
     .optional(),
 });

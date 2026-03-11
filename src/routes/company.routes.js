@@ -11,7 +11,6 @@ import { createCompanySchema } from "../validations/company.validation.js";
 
 const router = express.Router();
 
-/* recruiter creates company */
 router.post(
   "/",
   protect,
@@ -20,10 +19,8 @@ router.post(
   createCompany,
 );
 
-/* GET MY COMPANY */
 router.get("/me", protect, authorize("recruiter"), getMyCompany);
 
-/* UPDATE COMPANY */
 router.put("/", protect, authorize("recruiter"), updateCompany);
 
 export default router;

@@ -59,18 +59,15 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-/* hash password */
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
 });
 
-/* compare password */
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
 
-//access token
 userSchema.methods.getAccessToken = function () {
   return jwt.sign(
     { id: this._id, role: this.role },
@@ -79,7 +76,6 @@ userSchema.methods.getAccessToken = function () {
   );
 };
 
-//refresh token
 userSchema.methods.getRefreshToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_REFRESH_SECRET, {
     expiresIn: process.env.JWT_REFRESH_EXPIRE,

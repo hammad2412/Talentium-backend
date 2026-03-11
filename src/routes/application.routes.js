@@ -16,7 +16,6 @@ import Application from "../models/Application.model.js";
 
 const router = express.Router();
 
-/* candidate */
 router.post(
   "/apply/:jobId",
   protect,
@@ -25,14 +24,11 @@ router.post(
   applyJob,
 );
 
-/* recruiter */
-//view job applications & supports pagonation, sorting, filtering
 router.get(
   "/jobs/:jobId",
   protect,
   authorize("recruiter"),
   (req, res, next) => {
-    // enforce recruiter & job filter
     req.query.jobId = req.params.jobId;
     req.query.recruiterId = req.user._id;
     next();
@@ -44,7 +40,6 @@ router.get(
   getJobApplications,
 );
 
-//update application status
 router.patch(
   "/:id/status",
   protect,
