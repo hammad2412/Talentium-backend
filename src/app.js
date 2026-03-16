@@ -3,6 +3,9 @@
 import express from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+
 //routes
 import authRoutes from "./routes/auth.routes.js";
 import companyRoutes from "./routes/company.routes.js";
@@ -26,6 +29,10 @@ import xss from "xss-clean";
 import hpp from "hpp";
 import cors from "cors";
 
+// __dirname equivalent for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
 
 if (process.env.NODE_ENV === "development") {
@@ -34,8 +41,6 @@ if (process.env.NODE_ENV === "development") {
     next();
   });
 }
-
-// ---------- GLOBAL MIDDLEWARES ----------
 
 // Body parsing
 app.use(express.json());
@@ -62,7 +67,11 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Security headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // allows the HTML page to load fonts & styles
+  }),
+);
 
 // Prevent NoSQL injection
 //app.use(mongoSanitize());
@@ -81,6 +90,8 @@ const limiter = rateLimit({
 });
 
 app.use("/api", limiter);
+
+app.use(express.static(join(__dirname, "public")));
 
 // Mount Routes
 app.use("/api/v1/auth", authRoutes);

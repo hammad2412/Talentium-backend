@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talentium Backend — README</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Sora:wght@300;400;600;700;800&display=swap");
+
+      :root {
+        --bg: #0b0e14;
+        --surface: #111520;
+        --border: #1e2535;
+        --accent: #4f8ef7;
+        --accent2: #38e2c0;
+        --muted: #4a5568;
+        --text: #d1d9e6;
+        --text-dim: #7c8fa6;
+        --code-bg: #0d1117;
+        --tag-bg: #162032;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Sora", sans-serif;
+        font-size: 15px;
+        line-height: 1.75;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 32px 96px;
+      }
+
+      /* ── HERO ── */
+      .hero {
+        padding: 56px 0 40px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 48px;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--tag-bg);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        padding: 4px 14px;
+        font-size: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--accent2);
+        letter-spacing: 0.05em;
+        margin-bottom: 20px;
+      }
+      .hero h1 {
+        font-size: clamp(2.2rem, 5vw, 3.4rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        background: linear-gradient(130deg, #e8edf5 30%, #4f8ef7 80%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 16px;
+      }
+      .hero p {
+        font-size: 1rem;
+        color: var(--text-dim);
+        max-width: 680px;
+        line-height: 1.7;
+        font-weight: 300;
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 24px;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--tag-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--text-dim);
+      }
+      .badge span.dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent2);
+        display: inline-block;
+      }
+
+      /* ── SECTION ── */
+      section {
+        margin-bottom: 56px;
+      }
+      .section-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .section-label .icon {
+        font-size: 1.1rem;
+      }
+      h2 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #e8edf5;
+      }
+      h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 10px;
+        margin-top: 24px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.75rem;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 40px 0;
+      }
+      p {
+        color: var(--text-dim);
+        margin-bottom: 12px;
+      }
+
+      /* ── CARD ── */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 20px 24px;
+        margin-bottom: 12px;
+      }
+      .card-title {
+        font-weight: 600;
+        color: #e8edf5;
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+      }
+      .card p {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+      }
+
+      /* ── GRID ── */
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 14px;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 14px;
+      }
+
+      /* ── CODE BLOCK ── */
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 24px;
+        overflow-x: auto;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+        line-height: 1.7;
+        color: #8fbcbb;
+      }
+      code {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.82rem;
+      }
+      .inline-code {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 1px 7px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.8rem;
+        color: var(--accent2);
+      }
+
+      /* ── LIST ── */
+      ul,
+      ol {
+        padding-left: 0;
+        list-style: none;
+      }
+      ul li,
+      ol li {
+        color: var(--text-dim);
+        font-size: 0.92rem;
+        padding: 5px 0 5px 22px;
+        position: relative;
+      }
+      ul li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-size: 0.75rem;
+        top: 7px;
+      }
+      ol {
+        counter-reset: step;
+      }
+      ol li {
+        counter-increment: step;
+      }
+      ol li::before {
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.75rem;
+        top: 6px;
+      }
+
+      /* ── FLOW ── */
+      .flow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+      }
+      .flow-step {
+        background: var(--tag-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 6px 14px;
+        font-size: 0.78rem;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--accent2);
+      }
+      .flow-arrow {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      /* ── ENDPOINT TABLE ── */
+      .endpoints {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .endpoints thead tr {
+        background: var(--tag-bg);
+        border-bottom: 1px solid var(--border);
+      }
+      .endpoints th {
+        text-align: left;
+        padding: 10px 16px;
+        color: var(--text-dim);
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .endpoints td {
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-dim);
+        vertical-align: top;
+      }
+      .endpoints tr:last-child td {
+        border-bottom: none;
+      }
+      .endpoints tbody tr:hover {
+        background: var(--surface);
+      }
+      .method {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+      .GET {
+        background: #1a3a2a;
+        color: #38e2c0;
+      }
+      .POST {
+        background: #1a2a3a;
+        color: #4f8ef7;
+      }
+      .PUT {
+        background: #2a2a1a;
+        color: #f0c030;
+      }
+      .PATCH {
+        background: #2a1a2a;
+        color: #c07ff0;
+      }
+      .DELETE {
+        background: #3a1a1a;
+        color: #f07070;
+      }
+
+      /* ── STATUS PILLS ── */
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .pill {
+        background: var(--tag-bg);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        padding: 3px 12px;
+        font-size: 0.78rem;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--text-dim);
+      }
+
+      /* ── STACK TAG ── */
+      .stack-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .stack-tag {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #e8edf5;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      /* ── AUTHOR ── */
+      .author-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 28px 32px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .author-avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4f8ef7, #38e2c0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+      .author-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #e8edf5;
+      }
+      .author-role {
+        font-size: 0.85rem;
+        color: var(--text-dim);
+      }
+
+      /* ── divider line with label ── */
+      .divider-label {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 48px 0 32px;
+      }
+      .divider-label span {
+        font-size: 0.7rem;
+        font-family: "IBM Plex Mono", monospace;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .divider-label::before,
+      .divider-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ════════════════════════ HERO ════════════════════════ -->
+    <header class="hero">
+      <div class="hero-badge">
+        ⚙️ &nbsp;v1.0.0 &nbsp;·&nbsp; REST API &nbsp;·&nbsp; Node.js
+      </div>
+      <h1>Talentium Backend</h1>
+      <p>
+        A production-grade REST API backend for a job portal platform built with
+        Node.js, Express, and MongoDB — designed with scalable architecture,
+        strong security practices, and modular design.
+      </p>
+
+      <div class="badge-row">
+        <div class="badge"><span class="dot"></span> Node.js</div>
+        <div class="badge"><span class="dot"></span> Express.js</div>
+        <div class="badge"><span class="dot"></span> MongoDB</div>
+        <div class="badge"><span class="dot"></span> JWT Auth</div>
+        <div class="badge"><span class="dot"></span> Joi Validation</div>
+        <div class="badge"><span class="dot"></span> MVC Architecture</div>
+      </div>
+    </header>
+
+    <!-- ════════════════════════ OVERVIEW ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🌐</span>
+        <h2>Project Overview</h2>
+      </div>
+      <p>
+        <strong style="color: #e8edf5">Talentium Backend</strong> powers a job
+        portal platform that connects
+        <strong style="color: #4f8ef7">candidates</strong> and
+        <strong style="color: #38e2c0">recruiters</strong>. The backend system
+        handles the full lifecycle of job seeking and hiring through a clean,
+        secure API.
+      </p>
+      <div class="grid-2" style="margin-top: 20px">
+        <div class="card">
+          <div class="card-title">👤 For Candidates</div>
+          <p>
+            Authentication, profile management, education &amp; experience
+            tracking, skills, projects, preferences, job discovery, and
+            application submission.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🏢 For Recruiters</div>
+          <p>
+            Company management, job posting, applicant review, and application
+            status management with role-based access control.
+          </p>
+        </div>
+      </div>
+      <div class="card" style="margin-top: 12px">
+        <div class="card-title">🏗️ Architecture Philosophy</div>
+        <p>
+          Built with a
+          <strong style="color: #e8edf5"
+            >modular MVC-inspired architecture</strong
+          >
+          ensuring scalability, maintainability, and security — with every layer
+          having a single clear responsibility.
+        </p>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ ARCHITECTURE ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🗂️</span>
+        <h2>Project Architecture</h2>
+      </div>
+
+      <pre>
+src
+│
+├── controllers
+│   ├── auth.controller.js
+│   ├── user.controller.js
+│   ├── job.controller.js
+│   ├── company.controller.js
+│   ├── application.controller.js
+│   ├── candidateProfile.controller.js
+│   ├── candidateEducation.controller.js
+│   ├── candidateExperience.controller.js
+│   ├── candidateSkill.controller.js
+│   ├── candidateProject.controller.js
+│   └── candidatePreference.controller.js
+│
+├── models
+│   ├── User.model.js
+│   ├── Company.model.js
+│   ├── Job.model.js
+│   ├── Application.model.js
+│   ├── CandidateProfile.model.js
+│   ├── CandidateEducation.model.js
+│   ├── CandidateExperience.model.js
+│   ├── CandidateSkill.model.js
+│   ├── CandidateProject.model.js
+│   └── CandidatePreference.model.js
+│
+├── routes
+│   ├── auth.routes.js
+│   ├── user.routes.js
+│   ├── company.routes.js
+│   ├── job.routes.js
+│   ├── application.routes.js
+│   ├── candidateProfile.routes.js
+│   ├── candidateEducation.routes.js
+│   ├── candidateExperience.routes.js
+│   ├── candidateSkill.routes.js
+│   ├── candidateProject.routes.js
+│   └── candidatePreference.routes.js
+│
+├── middlewares
+│   ├── auth.middleware.js
+│   ├── authorize.middleware.js
+│   ├── pagination.middleware.js
+│   ├── validate.middleware.js
+│   ├── user.middleware.js
+│   └── error.middleware.js
+│
+├── validations
+│   ├── auth.validation.js
+│   ├── job.validation.js
+│   ├── application.validation.js
+│   ├── company.validation.js
+│   ├── candidateProfile.validation.js
+│   ├── candidateEducation.validation.js
+│   ├── candidateExperience.validation.js
+│   ├── candidateSkill.validation.js
+│   ├── candidateProject.validation.js
+│   └── candidatePreference.validation.js
+│
+├── utils
+│   ├── asyncHandler.js
+│   ├── ErrorResponse.js
+│   ├── generateProfileSlug.js
+│   └── profileCompletion.js
+│
+├── app.js
+└── server.js</pre
+      >
+
+      <h3>Layer Responsibilities</h3>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📦 controllers/</div>
+          <p>
+            Business logic handlers. Receive validated requests, interact with
+            models, and return responses.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🛣️ routes/</div>
+          <p>
+            Express router definitions. Wire HTTP methods and paths to
+            controller functions with middleware chains.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🗄️ models/</div>
+          <p>
+            Mongoose schemas and models. Define the shape, validation, and
+            relationships of all data entities.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🛡️ middlewares/</div>
+          <p>
+            Reusable request pipeline stages — authentication, authorization,
+            validation, pagination, and error handling.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">✅ validations/</div>
+          <p>
+            Joi schemas that enforce the structure, types, and constraints of
+            incoming request bodies before they reach controllers.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🔧 utils/</div>
+          <p>
+            Shared helper functions — async error wrapping, custom error
+            classes, slug generation, and profile completion scoring.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ CORE DESIGN ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">⚙️</span>
+        <h2>Core System Design</h2>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Controller Layer</div>
+          <p>
+            Handles the application's business logic. Each controller method
+            corresponds to a specific API action, uses
+            <span class="inline-code">asyncHandler</span> to propagate errors,
+            and interacts directly with Mongoose models.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Route Layer</div>
+          <p>
+            Defines endpoint paths and HTTP methods. Acts as the entry gate,
+            chaining middleware (auth → authorize → validate) before delegating
+            to controllers.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Model Layer</div>
+          <p>
+            Mongoose schemas model every domain entity. Handles DB-level
+            validation, default values, and relationships through references and
+            population.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Middleware Layer</div>
+          <p>
+            A composable pipeline of cross-cutting concerns executed on every
+            matched request — ensuring security, consistency, and validation
+            before any controller logic runs.
+          </p>
+        </div>
+      </div>
+
+      <h3>Request Lifecycle</h3>
+      <div class="flow">
+        <div class="flow-step">🛣️ Route</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">🔐 Authentication</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">🎫 Authorization</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">✅ Validation</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">⚙️ Controller</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">🗄️ Database</div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ SECURITY ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🔒</span>
+        <h2>Security Architecture</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🪖 Helmet</div>
+          <p>
+            Sets a comprehensive suite of secure HTTP response headers to
+            protect against common web vulnerabilities.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🚦 Rate Limiting</div>
+          <p>
+            Restricts each IP to
+            <strong style="color: #e8edf5">100 requests per 10 minutes</strong>
+            using <span class="inline-code">express-rate-limit</span>,
+            preventing brute-force and DDoS vectors.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🧹 HPP Protection</div>
+          <p>
+            Uses <span class="inline-code">hpp</span> (HTTP Parameter Pollution)
+            middleware to sanitize query strings and prevent parameter override
+            attacks.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🔑 JWT Authentication</div>
+          <p>
+            Stateless access token verification on every protected route.
+            Validates signature, expiry, and confirms the user is still active
+            in the database.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🌐 CORS Policy</div>
+          <p>
+            Strict origin whitelist — only pre-approved client origins are
+            permitted to make cross-origin requests, blocking unauthorized
+            frontend access.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🎭 Role-Based Access</div>
+          <p>
+            Every protected route explicitly declares which roles (<span
+              class="inline-code"
+              >candidate</span
+            >
+            / <span class="inline-code">recruiter</span>) may access it via the
+            <span class="inline-code">authorize</span> middleware.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ MIDDLEWARE ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🛡️</span>
+        <h2>Middleware System</h2>
+      </div>
+      <div class="card">
+        <div class="card-title">auth.middleware.js</div>
+        <p>
+          Extracts and verifies the JWT access token from the request header. On
+          success, attaches the authenticated user object to
+          <span class="inline-code">req.user</span> for downstream use.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">authorize.middleware.js</div>
+        <p>
+          A higher-order middleware factory that accepts one or more allowed
+          roles. Blocks the request with
+          <span class="inline-code">403 Forbidden</span> if the authenticated
+          user's role is not in the permitted list.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">validate.middleware.js</div>
+        <p>
+          Accepts a Joi schema and validates
+          <span class="inline-code">req.body</span> against it before the
+          controller executes. Returns a descriptive
+          <span class="inline-code">400 Bad Request</span> on schema violation.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">pagination.middleware.js</div>
+        <p>
+          A reusable pagination utility injected into listing endpoints. Reads
+          <span class="inline-code">page</span> and
+          <span class="inline-code">limit</span> query params, computes MongoDB
+          skip/limit values, and supports population of referenced documents.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">error.middleware.js</div>
+        <p>
+          Global Express error handler positioned at the end of the middleware
+          stack. Catches all errors propagated via
+          <span class="inline-code">next(err)</span>, uses the custom
+          <span class="inline-code">ErrorResponse</span> class to format
+          consistent JSON error responses.
+        </p>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ AUTH ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🔑</span>
+        <h2>Authentication System</h2>
+      </div>
+      <ul style="margin-bottom: 20px">
+        <li>Candidate &amp; Recruiter registration with role assignment</li>
+        <li>Secure login returning a signed JWT access token</li>
+        <li>Current session retrieval via protected route</li>
+        <li>Logout and token invalidation</li>
+        <li>Token refresh endpoint for seamless session renewal</li>
+      </ul>
+
+      <table class="endpoints">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/auth/login</code></td>
+            <td>Authenticate user &amp; return JWT</td>
+          </tr>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/auth/register/candidate</code></td>
+            <td>Register a new candidate</td>
+          </tr>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/auth/register/recruiter</code></td>
+            <td>Register a new recruiter</td>
+          </tr>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/auth/refresh</code></td>
+            <td>Refresh access token</td>
+          </tr>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/auth/logout</code></td>
+            <td>Invalidate current session</td>
+          </tr>
+          <tr>
+            <td><span class="method GET">GET</span></td>
+            <td><code>/api/v1/auth/me</code></td>
+            <td>Fetch authenticated user</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ CANDIDATE ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">👤</span>
+        <h2>Candidate Features</h2>
+      </div>
+      <p>
+        Candidates can build fully structured professional profiles across
+        multiple domain-specific modules.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📋 Candidate Profile</div>
+          <ul>
+            <li>Create &amp; update profile</li>
+            <li>Delete profile</li>
+            <li>Fetch profile or full aggregated profile</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">📊 Profile Completion System</div>
+          <p>
+            A utility calculates profile completeness percentage based on:
+            profile data, education, experience, skills, projects, and
+            preferences.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🛠️ Skills</div>
+          <ul>
+            <li>Add, update &amp; delete skills</li>
+            <li>Retrieve full skills list</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🎓 Education</div>
+          <ul>
+            <li>Add, update &amp; delete education entries</li>
+            <li>Retrieve education history</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">💼 Experience</div>
+          <ul>
+            <li>Add, update &amp; delete work experiences</li>
+            <li>Retrieve all experiences</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🚀 Projects</div>
+          <ul>
+            <li>Add, update &amp; delete portfolio projects</li>
+            <li>Retrieve projects list</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 14px">
+        <div class="card-title">⚙️ Preferences</div>
+        <p>
+          Set and update job preferences including: target role, preferred
+          location, expected salary range, and job type (full-time, part-time,
+          remote, contract).
+        </p>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ RECRUITER ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🏢</span>
+        <h2>Recruiter Features</h2>
+      </div>
+      <p>
+        Recruiters manage their company profile and control the full lifecycle
+        of job postings.
+      </p>
+
+      <h3>Company Management</h3>
+      <table class="endpoints">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/company</code></td>
+            <td>Create company profile</td>
+          </tr>
+          <tr>
+            <td><span class="method GET">GET</span></td>
+            <td><code>/api/v1/company/me</code></td>
+            <td>Retrieve own company</td>
+          </tr>
+          <tr>
+            <td><span class="method PUT">PUT</span></td>
+            <td><code>/api/v1/company</code></td>
+            <td>Update company details</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ JOBS ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">📋</span>
+        <h2>Job Management</h2>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 20px">
+        <div class="card">
+          <div class="card-title">✏️ Recruiter Actions</div>
+          <ul>
+            <li>Create new job posting</li>
+            <li>Update job details</li>
+            <li>Delete a job</li>
+            <li>Change job status (open / closed / draft)</li>
+            <li>View all their job listings</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🔎 Candidate Discovery</div>
+          <p>
+            Candidates can browse all active job listings with full server-side
+            pagination support.
+          </p>
+          <p style="margin-top: 8px">
+            <span class="inline-code"
+              >GET /api/v1/jobs?page=1&amp;limit=10</span
+            >
+          </p>
+        </div>
+      </div>
+
+      <table class="endpoints">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/jobs</code></td>
+            <td>Create a job posting</td>
+          </tr>
+          <tr>
+            <td><span class="method PUT">PUT</span></td>
+            <td><code>/api/v1/jobs/:id</code></td>
+            <td>Update job details</td>
+          </tr>
+          <tr>
+            <td><span class="method DELETE">DELETE</span></td>
+            <td><code>/api/v1/jobs/:id</code></td>
+            <td>Delete a job</td>
+          </tr>
+          <tr>
+            <td><span class="method PATCH">PATCH</span></td>
+            <td><code>/api/v1/jobs/:id/status</code></td>
+            <td>Change job status</td>
+          </tr>
+          <tr>
+            <td><span class="method GET">GET</span></td>
+            <td><code>/api/v1/jobs/my-jobs</code></td>
+            <td>Recruiter's job listings</td>
+          </tr>
+          <tr>
+            <td><span class="method GET">GET</span></td>
+            <td><code>/api/v1/jobs</code></td>
+            <td>Browse all jobs (paginated)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ APPLICATIONS ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">📨</span>
+        <h2>Job Applications System</h2>
+      </div>
+      <p>
+        Candidates apply to jobs. Recruiters review and manage applicants
+        through a structured status workflow.
+      </p>
+
+      <h3>Application Statuses</h3>
+      <div class="pill-row">
+        <span class="pill">🕐 pending</span>
+        <span class="pill">🔍 reviewing</span>
+        <span class="pill">⭐ shortlisted</span>
+        <span class="pill">❌ rejected</span>
+        <span class="pill">✅ accepted</span>
+      </div>
+
+      <table class="endpoints" style="margin-top: 20px">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/applications/apply/:jobId</code></td>
+            <td>Apply to a job</td>
+          </tr>
+          <tr>
+            <td><span class="method GET">GET</span></td>
+            <td><code>/api/v1/applications/jobs/:jobId</code></td>
+            <td>Get applicants for a job</td>
+          </tr>
+          <tr>
+            <td><span class="method PATCH">PATCH</span></td>
+            <td><code>/api/v1/applications/:id/status</code></td>
+            <td>Update application status</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ PERFORMANCE ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">⚡</span>
+        <h2>Performance Optimizations</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">📑 Pagination</div>
+          <p>
+            All listing endpoints use server-side pagination — preventing full
+            collection scans and keeping response sizes lean.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🔗 Population</div>
+          <p>
+            MongoDB document population joins related resources in a single
+            query:
+          </p>
+          <ul>
+            <li>Job → Company</li>
+            <li>Application → Candidate</li>
+            <li>Application → CandidateProfile</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🏥 Health Endpoint</div>
+          <p>
+            <span class="inline-code">GET /health</span> returns server status,
+            environment, timestamp, and service owner — ready for uptime
+            monitors.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ FUTURE ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🚀</span>
+        <h2>Future Improvements</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🔍 Advanced Candidate Search</div>
+          <p>
+            Filter and rank candidates by skills, education, experience,
+            location, expected salary, and tech stack.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🔡 Full-Text Job Search</div>
+          <p>
+            Elasticsearch or MongoDB Atlas Search integration for keyword-based
+            job discovery.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">⚡ Redis Caching</div>
+          <p>
+            Cache frequently accessed resources (job listings, company profiles)
+            to reduce database load and improve response times.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">📧 Email Notifications</div>
+          <p>
+            Transactional emails for application status changes, recruiter
+            messages, and account events.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">📄 Resume Parsing</div>
+          <p>
+            Automated extraction of candidate data from uploaded PDF resumes to
+            accelerate profile setup.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🤖 AI Recommendations</div>
+          <p>
+            Machine learning pipeline to match candidates to relevant jobs based
+            on profile and behaviour signals.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ TECH STACK ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🧱</span>
+        <h2>Tech Stack</h2>
+      </div>
+
+      <h3>Backend Runtime &amp; Framework</h3>
+      <div class="stack-grid">
+        <div class="stack-tag">🟩 Node.js</div>
+        <div class="stack-tag">🚂 Express.js</div>
+      </div>
+
+      <h3>Database</h3>
+      <div class="stack-grid">
+        <div class="stack-tag">🍃 MongoDB</div>
+        <div class="stack-tag">🦦 Mongoose ODM</div>
+      </div>
+
+      <h3>Security</h3>
+      <div class="stack-grid">
+        <div class="stack-tag">🪖 Helmet</div>
+        <div class="stack-tag">🚦 Express Rate Limit</div>
+        <div class="stack-tag">🧹 HPP</div>
+      </div>
+
+      <h3>Validation</h3>
+      <div class="stack-grid">
+        <div class="stack-tag">✅ Joi</div>
+      </div>
+
+      <h3>Utilities</h3>
+      <div class="stack-grid">
+        <div class="stack-tag">📝 Morgan</div>
+        <div class="stack-tag">🍪 Cookie Parser</div>
+        <div class="stack-tag">🌐 CORS</div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ AUTHOR ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">✍️</span>
+        <h2>Author</h2>
+      </div>
+      <div class="author-card">
+        <div class="author-avatar">👨‍💻</div>
+        <div>
+          <div class="author-name">Mohd Hammad Khan</div>
+          <div class="author-role">MERN Stack Developer</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-label">
+      <span>Talentium Backend · Built with Node.js, Express &amp; MongoDB</span>
+    </div>
+  </body>
+</html>
