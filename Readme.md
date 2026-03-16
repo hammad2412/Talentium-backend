@@ -344,4 +344,4 @@ Returns: server status · environment · timestamp · service owner
 
 ## ✍️ Author
 
-**Hammad Khan** — MERN Stack Developer
+**Mohd Hammad Khan** — MERN Stack Developer
