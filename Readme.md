@@ -17,11 +17,11 @@ The API is live and deployed on **Render**:
 
 |                     |                                                                                                  |
 | ------------------- | ------------------------------------------------------------------------------------------------ |
-| 🔗 **Base URL**     | `https://talentium-backend.onrender.com`                                                         |
+| 🔗 **Base URL**     | [`https://talentium-backend.onrender.com`](https://talentium-backend.onrender.com)               |
 | 🏥 **Health Check** | [`https://talentium-backend.onrender.com/health`](https://talentium-backend.onrender.com/health) |
 | 📡 **API Base**     | `https://talentium-backend.onrender.com/api/v1`                                                  |
 
-> ⚠️ **Note:** This project is hosted on Render's free tier. The server may take **30–60 seconds to wake up** on the first request after a period of inactivity.
+> ⚠️ **Note:** This project is hosted on Render's free tier. The server may take **30–45 seconds to wake up** on the first request after a period of inactivity.
 
 ---
 

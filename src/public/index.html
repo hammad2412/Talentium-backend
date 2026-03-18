@@ -411,6 +411,33 @@
         height: 1px;
         background: var(--border);
       }
+      /* ── HEALTH LINK ── */
+      .health-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.78rem;
+        color: var(--accent2);
+        text-decoration: none;
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 5px 12px;
+        margin-top: 10px;
+        transition:
+          border-color 0.2s,
+          color 0.2s,
+          background 0.2s;
+      }
+      .health-link:hover {
+        border-color: var(--accent2);
+        color: #5fffd8;
+        background: #0f1e1a;
+      }
+      .health-link .link-icon {
+        font-size: 0.85rem;
+      }
     </style>
   </head>
   <body>
@@ -1119,6 +1146,15 @@ src
             environment, timestamp, and service owner — ready for uptime
             monitors.
           </p>
+          <a
+            href="https://talentium-backend.onrender.com/health"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="health-link"
+          >
+            <span class="link-icon">🔗</span>
+            talentium-backend.onrender.com/health
+          </a>
         </div>
       </div>
     </section>
