@@ -13,6 +13,9 @@ import validate from "../middlewares/validate.middleware.js";
 
 import { candidateProfileSchema } from "../validations/candidateProfile.validation.js";
 
+import upload from "../middlewares/upload.middleware.js";
+import { uploadResume } from "../controllers/candidateProfile.controller.js";
+
 const router = express.Router();
 
 router.route("/me").get(protect, authorize("candidate"), getMyProfile);
@@ -30,5 +33,9 @@ router
     upsertCandidateProfile,
   )
   .delete(protect, authorize("candidate"), deleteMyProfile);
+
+router
+  .route("/upload-resume")
+  .post(protect, authorize("candidate"), upload.single("resume"), uploadResume);
 
 export default router;

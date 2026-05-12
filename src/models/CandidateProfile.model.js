@@ -71,6 +71,34 @@ const candidateProfileSchema = new mongoose.Schema(
     },
   },
   { timestamps: true },
+
+  {
+    resume: {
+      url: {
+        type: String,
+        default: "",
+      },
+      key: {
+        type: String,
+        default: "",
+      },
+      originalName: {
+        type: String,
+        default: "",
+      },
+      size: {
+        type: Number,
+        default: 0,
+      },
+      mimetype: {
+        type: String,
+        default: "",
+      },
+      uploadedAt: {
+        type: Date,
+      },
+    },
+  },
 );
 
 export default mongoose.model("CandidateProfile", candidateProfileSchema);

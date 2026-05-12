@@ -1,30 +1,36 @@
 import ErrorResponse from "../utils/ErrorResponse.js";
 
 const errorHandler = (err, req, res, next) => {
-  let error = { ...err };
-  error.message = err.message;
+  console.error(err);
 
-  // Mongoose bad ObjectId
-  if (err.name === "CastError") {
-    error = new ErrorResponse("Resource not found", 404);
-  }
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Internal Server Error";
 
-  // Mongoose duplicate key
-  if (err.code === 11000) {
-    error = new ErrorResponse("Duplicate field value entered", 400);
-  }
-
-  // Mongoose validation error
+  // Mongoose Validation Error
   if (err.name === "ValidationError") {
-    const message = Object.values(err.errors)
-      .map((val) => val.message)
+    statusCode = 400;
+    message = Object.values(err.errors)
+      .map((item) => item.message)
       .join(", ");
-    error = new ErrorResponse(message, 400);
   }
 
-  res.status(error.statusCode || 500).json({
+  // Invalid ObjectId
+  if (err.name === "CastError") {
+    statusCode = 400;
+    message = "Invalid resource ID";
+  }
+
+  // Duplicate Key Error
+  if (err.code === 11000) {
+    statusCode = 400;
+    const field = Object.keys(err.keyValue)[0];
+    message = `${field} already exists`;
+  }
+
+  res.status(statusCode).json({
     success: false,
-    message: error.message || "Server Error",
+    message,
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
   });
 };
 

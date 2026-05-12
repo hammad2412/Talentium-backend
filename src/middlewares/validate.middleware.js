@@ -12,7 +12,7 @@ const validate = (schema, property = "body") => {
       return next(new ErrorResponse(message, 400));
     }
 
-    // replace request data with validated & sanitized data
+    //replace request data with validated & sanitized data
     req[property] = value;
     next();
   };

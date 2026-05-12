@@ -441,6 +441,12 @@
       .health-link .link-icon {
         font-size: 0.85rem;
       }
+
+      /* ── AI SECTION HIGHLIGHT ── */
+      .ai-section-border {
+        border-left: 3px solid var(--accent2);
+        padding-left: 20px;
+      }
     </style>
   </head>
   <body>
@@ -452,8 +458,10 @@
       <h1>Talentium Backend</h1>
       <p>
         A production-grade REST API backend for a job portal platform built with
-        Node.js, Express, and MongoDB — designed with scalable architecture,
-        strong security practices, and modular design.
+        Node.js, Express, and MongoDB — featuring scalable architecture, strong
+        security practices, modular design, and AI-powered resume parsing that
+        automatically extracts candidate information and accelerates profile
+        creation.
       </p>
 
       <div class="badge-row">
@@ -463,6 +471,9 @@
         <div class="badge"><span class="dot"></span> JWT Auth</div>
         <div class="badge"><span class="dot"></span> Joi Validation</div>
         <div class="badge"><span class="dot"></span> MVC Architecture</div>
+        <div class="badge"><span class="dot"></span> 🤖 Gemini AI</div>
+        <div class="badge"><span class="dot"></span> ☁️ AWS S3</div>
+        <div class="badge"><span class="dot"></span> 📄 Resume Parsing</div>
       </div>
     </header>
 
@@ -485,8 +496,8 @@
           <div class="card-title">👤 For Candidates</div>
           <p>
             Authentication, profile management, education &amp; experience
-            tracking, skills, projects, preferences, job discovery, and
-            application submission.
+            tracking, skills, projects, preferences, job discovery, application
+            submission, and AI-powered resume upload and profile auto-fill.
           </p>
         </div>
         <div class="card">
@@ -580,6 +591,11 @@ src
 │   ├── candidateProject.validation.js
 │   └── candidatePreference.validation.js
 │
+├── services
+│   ├── geminiService.js
+│   ├── uploadToS3.js
+│   └── extractResumeText.js
+│
 ├── utils
 │   ├── asyncHandler.js
 │   ├── ErrorResponse.js
@@ -625,6 +641,14 @@ src
           <p>
             Joi schemas that enforce the structure, types, and constraints of
             incoming request bodies before they reach controllers.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">⚙️ services/</div>
+          <p>
+            Encapsulated integrations for external systems — Gemini AI
+            inference, AWS S3 file uploads, and multi-format resume text
+            extraction.
           </p>
         </div>
         <div class="card">
@@ -756,6 +780,14 @@ src
             >
             / <span class="inline-code">recruiter</span>) may access it via the
             <span class="inline-code">authorize</span> middleware.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">📂 Secure File Upload</div>
+          <p>
+            Validates file types and size before processing resumes. Only
+            permitted MIME types (PDF, DOCX) are accepted, and documents are
+            stored securely in AWS S3 with private access controls.
           </p>
         </div>
       </div>
@@ -933,6 +965,14 @@ src
             <li>Retrieve projects list</li>
           </ul>
         </div>
+        <div class="card">
+          <div class="card-title">🤖 AI Profile Auto-Fill</div>
+          <p>
+            Upload a resume and automatically populate professional headline and
+            skills using Google Gemini AI — eliminating manual data entry and
+            accelerating profile setup.
+          </p>
+        </div>
       </div>
 
       <div class="card" style="margin-top: 14px">
@@ -942,6 +982,104 @@ src
           location, expected salary range, and job type (full-time, part-time,
           remote, contract).
         </p>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- ════════════════════════ AI RESUME PARSING ════════════════════════ -->
+    <section>
+      <div class="section-label">
+        <span class="icon">🤖</span>
+        <h2>AI Resume Parsing</h2>
+      </div>
+      <p>
+        Candidates can upload PDF or DOCX resumes directly through the API. The
+        system leverages
+        <strong style="color: #38e2c0">Google Gemini AI</strong> to perform
+        structured information extraction, automatically parsing the document
+        and populating the candidate's profile with accurate, production-ready
+        data — eliminating manual entry and reducing onboarding friction.
+      </p>
+
+      <div class="grid-2" style="margin-top: 20px">
+        <div class="card">
+          <div class="card-title">📄 Resume Upload Pipeline</div>
+          <ul>
+            <li>Accept PDF or DOCX via multipart form upload</li>
+            <li>Stream file to AWS S3 for durable cloud storage</li>
+            <li>
+              Extract raw text using
+              <span class="inline-code">pdf-parse</span> /
+              <span class="inline-code">mammoth</span>
+            </li>
+            <li>Submit extracted text to Gemini API with structured prompt</li>
+            <li>Deserialize LLM response into typed JSON payload</li>
+            <li>Persist parsed fields to MongoDB candidate collections</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🧠 Extracted Data</div>
+          <ul>
+            <li>
+              Professional headline (e.g. Frontend Developer, MERN Stack
+              Developer)
+            </li>
+            <li>
+              Skills array — auto-synced to the candidate skill collection
+            </li>
+            <li>
+              Resume metadata — S3 object key, upload timestamp, file type
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Request Flow</h3>
+      <div class="flow">
+        <div class="flow-step">📤 Upload Resume</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">☁️ AWS S3</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">📄 Text Extraction</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">🤖 Gemini AI</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">🗄️ MongoDB</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">👤 Profile Updated</div>
+      </div>
+
+      <h3>Endpoints</h3>
+      <table class="endpoints">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="method POST">POST</span></td>
+            <td><code>/api/v1/candidate-profile/upload-resume</code></td>
+            <td>Upload and parse resume using AI</td>
+          </tr>
+          <tr>
+            <td><span class="method GET">GET</span></td>
+            <td><code>/api/v1/candidate-profile/full-profile</code></td>
+            <td>Retrieve AI-populated profile data</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Technology</h3>
+      <div class="stack-grid">
+        <div class="stack-tag">🤖 Google Gemini API</div>
+        <div class="stack-tag">☁️ AWS S3</div>
+        <div class="stack-tag">📄 PDF/DOCX Parsing</div>
+        <div class="stack-tag">🗄️ MongoDB</div>
+        <div class="stack-tag">⚙️ Node.js</div>
       </div>
     </section>
 
@@ -1200,17 +1338,18 @@ src
           </p>
         </div>
         <div class="card">
-          <div class="card-title">📄 Resume Parsing</div>
-          <p>
-            Automated extraction of candidate data from uploaded PDF resumes to
-            accelerate profile setup.
-          </p>
-        </div>
-        <div class="card">
           <div class="card-title">🤖 AI Recommendations</div>
           <p>
             Machine learning pipeline to match candidates to relevant jobs based
             on profile and behaviour signals.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">🎯 AI Job Match Scoring</div>
+          <p>
+            Compare candidate skills against job requirements to generate a
+            quantified match percentage, surface skill gaps, and deliver
+            actionable recommendations for profile improvement.
           </p>
         </div>
       </div>
@@ -1255,6 +1394,14 @@ src
         <div class="stack-tag">🍪 Cookie Parser</div>
         <div class="stack-tag">🌐 CORS</div>
       </div>
+
+      <h3>Artificial Intelligence &amp; File Processing</h3>
+      <div class="stack-grid">
+        <div class="stack-tag">🤖 Google Gemini API</div>
+        <div class="stack-tag">☁️ AWS S3</div>
+        <div class="stack-tag">📄 PDF-Parse</div>
+        <div class="stack-tag">📝 Mammoth</div>
+      </div>
     </section>
 
     <hr />
@@ -1269,7 +1416,7 @@ src
         <div class="author-avatar">👨‍💻</div>
         <div>
           <div class="author-name">Mohd Hammad Khan</div>
-          <div class="author-role">MERN Stack Developer</div>
+          <div class="author-role">Full-Stack Developer</div>
         </div>
       </div>
     </section>

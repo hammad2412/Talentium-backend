@@ -1,11 +1,12 @@
 //Load env vars
-import dotenv from "dotenv";
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config({ path: "./config/config.env" });
-}
+// import dotenv from "dotenv";
+// if (process.env.NODE_ENV !== "production") {
+//   dotenv.config({ path: "./config/config.env" });
+// }
 
 import app from "./app.js";
 import connectDB from "../config/db.js";
+import s3 from "../config/s3.js";
 
 // Environment variables
 const PORT = process.env.PORT || 5000;
